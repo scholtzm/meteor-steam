@@ -1,6 +1,6 @@
 Steam = {};
 
-Steam.requestCredential = function (options, credentialRequestCompleteCallback) {
+Steam.requestCredential = function(options, credentialRequestCompleteCallback) {
   if (!credentialRequestCompleteCallback && typeof options === 'function') {
     credentialRequestCompleteCallback = options;
     options = {};
@@ -9,8 +9,7 @@ Steam.requestCredential = function (options, credentialRequestCompleteCallback) 
   var config = ServiceConfiguration.configurations.findOne({service: 'steam'});
   if (!config) {
     if(credentialRequestCompleteCallback) {
-      // service must be configured otherwise OAuth package would throw another error down the road
-      // however, this package wouldn't require service config and could be configured via options only
+      // service must be configured otherwise OAuth package would throw another error down the road anyway
       credentialRequestCompleteCallback(new ServiceConfiguration.ConfigError('Service not configured.'));
     }
     return;

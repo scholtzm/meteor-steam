@@ -9,10 +9,17 @@ OAuth.registerService('steam', 2, null, function(query) {
 });
 
 function verify(query) {
+  var config = ServiceConfiguration.configurations.findOne({service: 'steam'});
+  if (!config)
+    throw new ServiceConfiguration.ConfigError('Service not configured.');
+
   var response;
   try {
-    response = HTTP.post('https://steamcommunity.com/openid/login', { params: _.extend(query, { 'openid.mode': 'check_authentication' }) });
-  } catch (err) {
+    response = HTTP.post('https://steamcommunity.com/openid/login', {
+      params: _.extend(query, { 'openid.mode': 'check_authentication' }),
+      timeout: config.timeout ? Number(config.timeout) : 10000
+    });
+  } catch(err) {
     throw new Meteor.Error('openid-handshake-failed', 'Failed to complete OpenID handshake with Steam.');
   }
 
