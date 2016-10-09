@@ -10,8 +10,9 @@ OAuth.registerService('steam', 2, null, function(query) {
 
 function verify(query) {
   var config = ServiceConfiguration.configurations.findOne({service: 'steam'});
-  if (!config)
+  if(!config) {
     throw new ServiceConfiguration.ConfigError('Service not configured.');
+  }
 
   var response;
   try {
@@ -30,6 +31,6 @@ function verify(query) {
   }
 }
 
-Steam.retrieveCredential = function(credentialToken) {
-  return OAuth.retrieveCredential(credentialToken);
+Steam.retrieveCredential = function(credentialToken, credentialSecret) {
+  return OAuth.retrieveCredential(credentialToken, credentialSecret);
 };
